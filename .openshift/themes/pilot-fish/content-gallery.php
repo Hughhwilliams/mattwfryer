@@ -1,6 +1,6 @@
 <?php
 /**
- * The template for displaying gallery post format, updated May 2014
+ * The template for displaying gallery post format
  *
  */
 ?>

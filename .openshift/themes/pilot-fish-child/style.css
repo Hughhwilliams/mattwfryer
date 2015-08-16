@@ -1,33 +1,19 @@
 /* 
-Theme Name: Pilot Fish 
-Theme URI: http://wordpress.danielatwork.com/project/pilot-fish/
-Description: Pilot Fish is an elegant portfolio theme with minimal design: featuring a custom post type to highlight projects and work, and parallax scrolling on the front page to display a featured image. Responsive layout makes it adaptive to mobile devices. Also Pilot Fish supports custom menus, post formats, and is available in Japanese, Spanish, Russian and Dutch. In this release, version 0.3.5, new features include custom category and custom tags listings for project, now you can have several project archieve pages by different project types and skills. Disclaimer: if you modified code in the original theme then an update will erase all your changes. So please either ignore this release or back up your changes.
-Author: Daniel Zhao
-Author URI: http://danielatwork.com/
-Version: 0.3.5
-Tags: white, blue, gray, light, custom-menu, custom-header, custom-background, one-column, two-columns, right-sidebar, featured-images, fluid-layout, responsive-layout, full-width-template, post-formats, translation-ready, theme-options
-	
-License: GNU General Public License (GPL)
-License URI: license.txt
- 
- 
-  Table of Contents
-==================================================
-	01 - Reset & Basics
-	02 - Global Styles
-	03 - Site Layout
-	04 - Margins & Paddings
-	05 - Header
-	06 - Content
-	07 - Sidebar
-	08 - Widgets
-	09 - Comments
-	10 - Pagination
-	11 - Footer
-	12 - Misc
-	13 - Media Queries
-	14 - Fixes for IE8
+Theme Name: Pilot Fish Child
+Theme URI: http://www.mattwfryer.com
+Description: Pilot Fish Masonry Customisation
+
+Author: Hugh Williams
+Author URI: hugh@hughwilliams.co.uk
+Template: pilot-fish-child
+Version: 0.1.0
 */
+
+@import url("../pilot-fish/style.css");
+
+
+/* =Theme customization starts here
+-------------------------------------------------------------- */
 
 /* 01 - Reset & Basics (Inspired by E. Meyers)
 ================================================== */
@@ -62,7 +48,7 @@ License URI: license.txt
 	.wp-caption {
 		max-width: auto !important;
 		background-color: #F3F3F3;
-    		border: 1px solid #DDDDDD;
+    		border: 1px solid #212026;
     		border-radius: 3px 3px 3px 3px;
     		margin: 10px 0;
     		padding-top: 4px;
@@ -156,7 +142,7 @@ License URI: license.txt
 		padding: 10px;
 		background: #fff;
 		overflow: auto;	
-		border: 1px solid #e4e4e4;
+		border: 1px solid #212026;
 }
 /*	Horizontal Rule   */	
 	hr {
@@ -372,7 +358,7 @@ License URI: license.txt
 	#footer {
   		margin: 45px auto;
   		padding: 35px 0 36px;
-  		border-top: 1px solid #e5e5e5;
+  		border-top: 1px solid #212026;
 }
 	#footer p small { font-size: 13px; }
 
@@ -659,7 +645,7 @@ License URI: license.txt
 }
 	#content article {
 		padding-bottom: 37px;
-		border-bottom: 1px solid whiteSmoke;
+		border-bottom: 1px solid whitesmoke;
 		margin-bottom: 30px;
 }
 /*	Post	*/
@@ -686,7 +672,7 @@ License URI: license.txt
 	.post-entry .attachment-post-thumbnail {
 		float: left;
 		background: none repeat scroll 0 0 #EEEDEE;
-    		border: 1px solid #E5E5E5;
+    		border: 1px solid #212026;
     		border-radius: 3px 3px 3px 3px;
     		margin-right: 20px;
     		padding: 5px;
@@ -762,9 +748,9 @@ License URI: license.txt
 		font: italic 1.8em/1.3 Futura, "Trebuchet MS", Arial, sans-serif;
 }
 	.format-quote blockquote a {
-		color: #fff;
+		color: #212026;
 		opacity: 0.8;
-		border-color: #fff;
+		border-color: #212026;
 }
 	.format-quote blockquote cite,
 	.format-quote blockquote cite a {
@@ -776,7 +762,7 @@ License URI: license.txt
 	.format-quote blockquote cite a:hover,
 	.format-quote blockquote cite a:focus,
 	.format-quote blockquote cite a:active {
-		color: #fff;
+		color: #212026;
 		opacity: .95;
 }
 
@@ -836,7 +822,7 @@ License URI: license.txt
 	#thumbnail a {
 }
 	#thumbnail div div {
-		background-color: #ffffff;
+		background-color: #212026;
 		overflow: hidden;
 /*	remove image restrictions
 		width: 300px !important;
@@ -927,7 +913,7 @@ License URI: license.txt
 }
 	.featured-title {
 		font-size: 60px;
-		color: #ffffff;
+		color: #212026;
 		letter-spacing: -1px;
 		line-height: 1;
 		margin: 0;

@@ -7,7 +7,6 @@ Japanese Translation: Nina Kurose and Daniel Zhao
 Spanish Translation: Louis Gutierrez and Daniel Zhao
 Russian Translation: Денис Демков
 Dutch Translation: Daniel Wichers
-German Translation: Martin Dschay
 
 == SUPPORT ==
 daniel@danielatwork.com
@@ -45,13 +44,6 @@ November 24, 2013
 2. Custom category and tag listings for "Project"
 
 Version: 0.3.5
-December 26, 2013
+Date
 1. Bug fixes and UI improvements.
 2. Add alternative method to change the landing page image to Theme Options.
-
-Version: 0.4.0
-July 05, 2014
-1. Bug fixes and UI improvements. (Many thanks to David Vilanova and Vítor Fernandes for reporting the bugs!)
-2. Add German translation.
-3. Add blog pagination.
-4. Improved theme options UI.
