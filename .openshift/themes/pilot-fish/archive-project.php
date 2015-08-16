@@ -13,15 +13,11 @@ get_header(); ?>
 
 <div id="project-archive" class="row span12" role="main"> 
 <?php if (have_posts()) : ?>
-        <div id="thumbnail">
+        <div id="masonry-loop">
 			<?php $var = 1; ?>
 			<?php while (have_posts()) : the_post(); ?>
-				<?php if ($var%3 == 0): ?>
-					<div class="row span4-fixed last"><div id="post-<?php the_ID(); ?>" <?php post_class(); ?> >
-				<?php else : ?>
-					<div class="row span4-fixed"><div id="post-<?php the_ID(); ?>" <?php post_class(); ?> >
-				<?php endif; ?>
-				<a href="<?php the_permalink() ?>" rel="bookmark"><span class="title-overlay" style="display: inline;"><span><?php the_title(); ?></span></span><?php pilotfish_the_thumbnail(); ?></a>
+				<div class="masonry-entry"><div id="post-<?php the_ID(); ?>" <?php post_class(); ?> >
+					<a href="<?php the_permalink() ?>" rel="bookmark"><span class="title-overlay" style="display: inline;"><span><?php the_title(); ?><br /><br />view project</span></span><?php pilotfish_the_thumbnail(); ?></a>
 				</div>
 				</div>
 				<?php $var++; ?>

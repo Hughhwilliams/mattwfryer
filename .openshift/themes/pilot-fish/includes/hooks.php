@@ -20,6 +20,7 @@ function pilotfish_container_end() { do_action('pilotfish_container_end'); }
 function pilotfish_in_footer() { do_action('pilotfish_in_footer'); } 
 function pilotfish_footer_end() { do_action('pilotfish_footer_end'); }
 function pilotfish_footer() { do_action('pilotfish_footer'); }
+function pilotfish_masonry() { do_action('pilotfish_masonry'); }
  
 /**
  * sidebar.php

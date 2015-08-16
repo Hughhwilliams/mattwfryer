@@ -15,6 +15,7 @@
 <!--[if IE 8 ]>    <html class="no-js ie8" <?php language_attributes(); ?>> <![endif]-->
 <!--[if (gte IE 9)|!(IE)]><!--> <html class="no-js" <?php language_attributes(); ?>> <!--<![endif]-->
 <head>
+<link rel="stylesheet" href="<?php bloginfo('stylesheet_directory'); ?>/style.css" />
 <meta charset="<?php bloginfo('charset'); ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
 
@@ -24,7 +25,7 @@
 <?php wp_head(); ?>
 </head>
 
-<body <?php body_class(); ?>>                
+<body <?php body_class(); ?>>    
 <?php pilotfish_container(); // before container hook ?>
 <div id="container" class="hentry">
     <?php pilotfish_header(); // before header hook ?>
@@ -32,21 +33,28 @@
     <?php pilotfish_in_header(); // header hook ?>
 	<?php if ( get_header_image() != '' ) : ?>
         <div id="logo">
+            <a href="<?php echo home_url( '/' ); ?>"><img src="<?php header_image(); ?>" alt="<?php bloginfo('description'); ?>" /></a>
+        </div>
+        <div id="site-name">
             <span class="site-name"><a href="<?php echo home_url('/'); ?>" title="<?php echo esc_attr(get_bloginfo('name', 'display')); ?>" rel="home"><?php bloginfo('name'); ?></a></span>
+        </div>
+        <div id="site-description">
             <span class="site-description"><?php bloginfo('description'); ?></span>
-            <a href="<?php echo home_url( '/' ); ?>"><img src="<?php header_image(); ?>" width="<?php echo HEADER_IMAGE_WIDTH; ?>" height="<?php echo HEADER_IMAGE_HEIGHT; ?>" alt="<?php bloginfo('description'); ?>" /></a>
-        </div><!-- end of #logo -->
+        </div>
     <?php endif; ?>
     
     <?php if ( !get_header_image() ) : ?>
-        <div id="logo">
+        <div id="logo"></div>
+        <div id="site-name">
             <span class="site-name"><a href="<?php echo home_url('/'); ?>" title="<?php echo esc_attr(get_bloginfo('name', 'display')); ?>" rel="home"><?php bloginfo('name'); ?></a></span>
+        </div>
+        <div id="site-description">
             <span class="site-description"><?php bloginfo('description'); ?></span>
         </div><!-- end of #logo -->  
     <?php endif; // header image was removed ?>
 
 <!-- Primary Navigation Menu -->
-    <nav id="access">
+    <nav id="access" style="float: right;">
 	<?php wp_nav_menu( array( 'theme_location' => 'primary-navigation' ) ); ?>
     </nav>
     </div><!-- end of #header -->

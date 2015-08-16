@@ -4,26 +4,63 @@
  */
 if (!function_exists('pilotfish_script')):
 function pilotfish_scripts() {
-  	wp_enqueue_style('pilotfish_main_style', get_template_directory_uri() . '/style.css', array(), false, 'all');
+  	wp_enqueue_style('pilotfish_main_style', get_template_directory_uri() . '/style.css', true, null);
 
   	if (!is_admin()) {
-    	wp_deregister_script('jquery');
-    	wp_register_script('jquery', '', '', '', false);
+    		wp_deregister_script('jquery');
+    		wp_register_script('jquery', '', '', '', false);
   	}
 
-  	if (comments_open() && get_option('thread_comments')) {
-    	wp_enqueue_script('comment-reply');
+  	if (is_single() && comments_open() && get_option('thread_comments')) {
+    		wp_enqueue_script('comment-reply');
   	}
 
-  	wp_enqueue_script('pilotfish_modernizr', get_template_directory_uri() . '/js/modernizr.js', array('jquery'), null, false);
-	wp_enqueue_script('pilotfish_mediaqueries', get_template_directory_uri() . '/js/css3-mediaqueries.js', array('jquery'), null, false);
-	wp_enqueue_script('pilotfish_main', get_template_directory_uri() . '/js/main.js', array('jquery'), null, true);
-
-	wp_enqueue_style('pilotfish_font', '//fonts.googleapis.com/css?family=Droid+Sans:400,700|Droid+Serif:400,700|Fredericka+the+Great', array(), false, 'all');
+  	wp_register_script('pilotfish_modernizr', get_template_directory_uri() . '/js/modernizr.js', array('jquery'), null, false);
+	wp_register_script('pilotfish_mediaqueries', get_template_directory_uri() . '/js/css3-mediaqueries.js', array('jquery'), null, false);
+	wp_register_script('pilotfish_main', get_template_directory_uri() . '/js/main.js', array('jquery'), null, true);
+  	wp_enqueue_script('pilotfish_modernizr');
+	wp_enqueue_script('pilotfish_mediaqueries');
+  	wp_enqueue_script('pilotfish_main');
 }
 endif;
 add_action('wp_enqueue_scripts', 'pilotfish_scripts');
 
+if ( ! function_exists( 'slug_masonry_init' )) {
+	function slug_masonry_init() { 
+		?>
+		<script>
+		    //set the container that Masonry will be inside of in a var
+		    var container = document.querySelector('#masonry-loop');
+
+		    if(container !== undefined) {
+			    //create empty var msnry
+			    var msnry;
+			    // initialize Masonry after all images have loaded
+			    imagesLoaded( container, function() {
+			        msnry = new Masonry( container, {
+			            itemSelector: '.masonry-entry',
+			        });
+			    });
+			}
+		</script>
+		<?php 
+	}
+	add_action( 'pilotfish_masonry', 'slug_masonry_init' );
+} // ! slug_masonry_init exists 
+
+/**
+* Include Masonry JS for porfolio page
+*/
+
+if (! function_exists('slug_scripts_masonry') ) :
+if ( ! is_admin() ) :
+function slug_scripts_masonry() {
+    wp_enqueue_script('masonry');
+    wp_enqueue_style('masonry', get_template_directory_uri() . '/css/masonry.css');
+}
+add_action( 'wp_enqueue_scripts', 'slug_scripts_masonry' );
+endif; //! is_admin()
+endif; //! slug_scripts_masonry exists
 
 /**
  * Show post thumbnail
@@ -37,7 +74,7 @@ function pilotfish_the_thumbnail() {
 		return false;
 	}
 
-	$html = get_the_post_thumbnail($id, array(300,175));
+	$html = get_the_post_thumbnail( $post_id, 'large' );
 	if(!empty($html)){
 		echo $html;
 	}
@@ -66,7 +103,10 @@ if (!function_exists('create_post_type')):
 					'has_archive' => true,
 					'show_in_menu' => true, 
 					'query_var' => true,
-					'rewrite' => true,
+					'rewrite' => array(
+						'slug' => 'portfolio',
+						'with_front' => false
+					),
 					'capability_type' => 'post',
 					'has_archive' => true, 
 					'hierarchical' => false,
@@ -184,7 +224,7 @@ endif;
 /**
  * Replaces "[...]" (appended to automatically generated excerpts) with an ellipsis and pilotfish_continue_reading_link().
  */
-if (!function_exists('pilotfish_auto_excerpt_more')):
+if (!function_exists('pilotfish_auto_excerpt_more'))://
 function pilotfish_auto_excerpt_more( $more ) {
 	return ' &hellip;' . pilotfish_continue_reading_link();
 }
@@ -243,27 +283,65 @@ endif;
 // call our custom wp_title filter, with normal (10) priority, and 3 args
 add_filter( 'wp_title', 'pilotfish_filter_wp_title', 10, 3 );
 
+/*
+ * Comment reply script
+ */
+function pilotfish_enqueue_comment_reply_script() {
+	if ( comments_open() && get_option( 'thread_comments' ) ) {
+		wp_enqueue_script( 'comment-reply' );
+	}
+}
+add_action( 'comment_form_before', 'pilotfish_enqueue_comment_reply_script' );
+
 /**
  * Return the URL for the first link found in the post content.
  */
-if (!function_exists('pilotfish_url_grabber')):
 function pilotfish_url_grabber() {
 	if ( ! preg_match( '/<a\s[^>]*?href=[\'"](.+?)[\'"]/is', get_the_content(), $matches ) )
 		return false;
 
 	return esc_url_raw( $matches[1] );
 }
-endif;
 
-
-if (!function_exists('modify_num_posts_for_projects')):
 function modify_num_posts_for_projects($query)
 {
     if ($query->is_main_query() && $query->is_post_type_archive('project') && !is_admin())
-        $query->set('posts_per_page', 12);
+        $query->set('posts_per_page', 50);
 }
-endif;
+ 
 add_action('pre_get_posts', 'modify_num_posts_for_projects');
+
+/** 
+ * Include the Google Analytics Tracking Code (ga.js)
+ */
+// @ http://code.google.com/apis/analytics/docs/tracking/asyncUsageGuide.html
+function google_analytics_tracking_code(){
+
+	$options = get_option('pilotfish_theme_options');
+	$propertyID = $options['ga_tracking_code'];
+
+	if ($options['add_ga'] == 1) { ?>
+
+		<script type="text/javascript">
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', '<?php echo $propertyID; ?>']);
+		  _gaq.push(['_trackPageview']);
+
+		  (function() {
+		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+		</script>
+
+<?php }
+}
+
+// include GA tracking code before the closing head tag
+// add_action('wp_head', 'google_analytics_tracking_code');
+
+// include GA tracking code before the closing body tag
+add_action('wp_footer', 'google_analytics_tracking_code');
 
 
 /**
@@ -272,13 +350,13 @@ add_action('pre_get_posts', 'modify_num_posts_for_projects');
 if ( ! function_exists( 'pilotfish_featured_image_override' ) ) :
 function pilotfish_featured_image_override() {
 
-	$options = get_option('pilot_fish');
-	$featuredURL = $options['pilotfish_featured_image_url'];
+	$options = get_option('pilotfish_theme_options');
+	$featuredURL = $options['featured_image_url'];
 	if ( $featuredURL != '' ):
 ?>
 	<style type="text/css">
 	#featured {
-		background-image: url(<?php echo esc_url( $featuredURL ); ?>);
+		background-image: url(<?php echo $featuredURL; ?>);
 	}
 	</style>
 	<?php endif; ?>
@@ -286,21 +364,3 @@ function pilotfish_featured_image_override() {
 }
 endif; // pilotfish_featured_image_override
 add_action('wp_footer', 'pilotfish_featured_image_override');
-
-/** 
- * Upload favicon for a website
- */
-if (!function_exists('pilotfish_website_favicon')):
-function pilotfish_website_favicon(){
-
-	$options = get_option('pilot_fish');
-	$faviconURL = $options['pilotfish_favicon'];
-
-	if ( $options['pilotfish_activate_favicon'] == 1 ):
-?>
-	  <link rel="shortcut icon" href="<?php echo esc_url( $faviconURL ); ?>">
-	<?php endif; ?>
-<?php
-}
-endif;
-add_action('wp_head', 'pilotfish_website_favicon');

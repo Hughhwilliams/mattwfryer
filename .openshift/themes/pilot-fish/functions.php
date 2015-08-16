@@ -5,13 +5,11 @@
  
 if (!defined('__DIR__')) { define('__DIR__', dirname(__FILE__)); }
 
+require ( get_template_directory() . '/includes/theme-options.php' );
 require ( get_template_directory() . '/includes/scripts.php' );
 require ( get_template_directory() . '/includes/hooks.php' );
 require ( get_template_directory() . '/includes/template-tags.php' );
 require ( get_template_directory() . '/includes/widgets.php' );
-
-define( 'OPTIONS_FRAMEWORK_DIRECTORY', get_template_directory_uri() . '/includes/options/' );
-require_once dirname( __FILE__ ) . '/includes/options/options-framework.php';
 
 // Set the content width based on the theme's design and stylesheet
 if (!isset($content_width)) { $content_width = 960; }
@@ -20,8 +18,7 @@ if (!function_exists('pilotfish_setup')):
 function pilotfish_setup() {
 
 // Make theme available for translation
-  	load_theme_textdomain('pilotfish', get_stylesheet_directory() . '/languages');
-	load_theme_textdomain('pilotfish', get_template_directory() . '/languages/' );
+  	load_theme_textdomain('pilotfish', get_template_directory() . '/languages');
 
 // Register wp_nav_menu() menus
   	register_nav_menu( 'primary-navigation', __( 'Primary Navigation', 'pilotfish' ) );
@@ -126,19 +123,18 @@ if ( ! function_exists( 'pilotfish_admin_header_style' ) ) :
 function pilotfish_admin_header_style() {
 ?>
 	<style type="text/css">
-	@import url(http://fonts.googleapis.com/css?family=Fredericka+the+Great);
-	.site-name a {
-		font-family: 'Fredericka the Great', cursive;
+	#site-name a {
+		font-family: Futura, "Trebuchet MS", Arial, sans-serif;
 		font-size: 3.5em;
 		color: #377687;
 		line-height: 1.1em;
 		text-decoration: none;
 	} 
-	.site-name a:hover {
+	#site-name a:hover {
 		text-decoration: none;
 		color: #377687;
 	}
-	#logo .site-description {
+	#site-description {
 		display:block;
 		font-size:14px;
 		margin:10px 33px 0 0;
@@ -149,15 +145,16 @@ function pilotfish_admin_header_style() {
 		// If the user has set a custom color for the text use that
 		if ( get_header_textcolor() != HEADER_TEXTCOLOR ) :
 	?>
-		.site-name a,
-		.site-name a:hover,
-		.site-description {
+		#site-name a,
+		#site-name a:hover,
+		#site-description {
 			color: #<?php echo get_header_textcolor(); ?>;
+			float:left;
 		}
 	<?php endif; ?>
 	#logo {
 		float:left;
-		margin-bottom: 20px;
+		margin-bottom: 0px;
 	}
 	</style>
 <?php
@@ -181,11 +178,11 @@ function pilotfish_admin_header_image() { ?>
 		else
 			$style = ' style="display:none"';
 		?>
-		<span class="site-name"<?php echo $style; ?>><a onclick="return false;" href="<?php echo home_url('/'); ?>" title="<?php echo esc_attr(get_bloginfo('name', 'display')); ?>" rel="home"><?php bloginfo('name'); ?></a></span><br />
-            	<span class="site-description"<?php echo $style; ?>><?php bloginfo('description'); ?></span><br />
-            	<?php if ( $image ) : ?>
+		<?php if ( $image ) : ?>
 			<img src="<?php echo esc_url( $image ); ?>" alt="" />
 		<?php endif; ?>
+		<span class="site-name"<?php echo $style; ?>><a onclick="return false;" href="<?php echo home_url('/'); ?>" title="<?php echo esc_attr(get_bloginfo('name', 'display')); ?>" rel="home"><?php bloginfo('name'); ?></a></span>
+            	<span class="site-description"<?php echo $style; ?>><?php bloginfo('description'); ?></span>
 	</div>
 <?php }
 endif; // pilotfish_admin_header_image

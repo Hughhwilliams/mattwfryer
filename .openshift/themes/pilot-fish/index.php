@@ -11,14 +11,16 @@ get_header(); ?>
 
         <div id="content" class="row span8" role="main">       
 <?php if (have_posts()) : ?>
+	<div id="masonry-loop">
 		<?php while (have_posts()) : the_post();
 				if( !get_post_format() ) {
-					get_template_part( 'content', 'standard' );
+					get_template_part( 'content', 'standard', 'masonry' );
 				} else {
 					get_template_part( 'content', get_post_format() );
 				}
 				comments_template( '', true ); ?>
         <?php endwhile; ?> 
+    </div><!--/#masonry-loop-->
         
         <?php if ($wp_query->max_num_pages > 1) { ?>
 		  <nav id="post-nav" class="pager">
